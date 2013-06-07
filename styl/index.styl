@@ -1,0 +1,195 @@
+@import 'nib'
+
+// path to folder, where to pick up images
+$path-to-img-folder = 'img/'
+
+//.beaver-container require width and height. They can be passed via media queries.
+// Everything within .beaver-container is in %. 
+// So, if you proportionally scale beaver down or up, rewrite width and height of new container 
+// and every element will be placed proportinally.
+// Also don't forget to change path to new parts of beaver.
+// .beaver-container require position: absolute; , because there are 2 containers:
+// first - with beaver's body;
+// second - with beaver's hands, wings and head;
+// and second should lay exactly on the top of first. 
+// Between both .beaver-containers - .png is placed.
+$beaver-container-height = 220px
+$beaver-container-width = 213px
+
+
+
+// Eyebrows animation
+// First num is for x scale, second - for y scale
+$eyebrows-scale-nums = 1.05, 1.1
+// How long is the act of rasing eyebrows
+// Number is in miliseconds
+$eyebrows-scale-duration = 500ms
+
+
+
+// Wings animation consists of screw and rotation
+// ScewY and rotate numbers should be in 'deg',
+// also left and right numbers can be different, but right is always negative
+$scewY-wing-left-num = 8deg
+$scewY-wing-right-num = -8deg
+$rotate-wing-left-num = 10deg
+$rotate-wing-right-num = -10deg
+// How many times beaver should flaps his wings
+// up and down is one flap
+$wings-flaps-num = 2
+// What is the duration of one flap
+// Number in ms
+$wings-flap-duration = 1200ms
+
+
+
+
+// Beaver-container animation
+// How far up should beaver elevate
+// Number should be negative
+$translate-beaver-up = -40px
+// How long does it take for beaver to go up and down
+// Number in ms
+$beaver-elevate-duration = 5000ms
+
+
+.site
+  background-image: url($path-to-img-folder'why-page.png');
+  height: 2793px;
+  margin: 0 auto;
+  width: 1600px;
+
+.beaver-container
+  height: $beaver-container-height;
+  left: 300px;
+  position: absolute;
+  top: 100px;
+  width: $beaver-container-width;
+  &.active
+    animation: beaver-elevates $beaver-elevate-duration linear forwards;
+  & div
+    position: absolute;
+
+.beaver-body
+  background-image: url($path-to-img-folder'beaver-body.png');
+  bottom: 0;
+  height: 89%;
+  left: 18%;
+  width: 69%;
+
+.png
+  background-color: red;
+  height: 122px;
+  width: 185px;
+  position: relative;
+  top: 278px;
+  left: 160px;
+
+.beaver-hands
+  background-image: url($path-to-img-folder'beaver-hands.png');
+  bottom: 7.7%;
+  height: 35%;
+  left: 24%;
+  width: 59%;
+
+.beaver-left-wing
+  background-image: url($path-to-img-folder'beaver-left-wing.png'); 
+  height: 31.8%;
+  left: 0;
+  top: 30.5%;
+  width: 35.6%;
+  transform-origin: 120% 30%;
+  &.active
+    animation: wings-flaps-left $wings-flap-duration linear $wings-flaps-num forwards;
+
+.beaver-right-wing
+  background-image: url($path-to-img-folder'beaver-right-wing.png');
+  height: 32.3%;
+  right: 0;
+  top: 31.8%;
+  width: 35.6%;
+  transform-origin: 0% 30%;
+  &.active
+    animation: wings-flaps-right $wings-flap-duration linear $wings-flaps-num forwards;
+
+.beaver-head
+  background-image: url($path-to-img-folder'beaver-head.png');
+  height: 70.5%;
+  right: 2.8%;
+  top: 0;
+  width: 66.7%;
+
+.beaver-eyes
+  background-image: url($path-to-img-folder'beaver-eyes.png');
+  height: 17.42%;
+  left: 14.08%;
+  top: 35.48%;
+  width: 51.41%;
+
+.beaver-eyebrows
+  background-image: url($path-to-img-folder'beaver-eyebrows.png');
+  height: 10.5%;
+  right: 18.3%;
+  top: 20%;
+  width: 39%;
+  transform-origin: 50% 150%;
+
+.beaver-container:hover .png
+  background-color: green;
+
+.beaver-container:hover .beaver-eyebrows
+  animation: eyebrows-scale $eyebrows-scale-duration forwards;
+
+@keyframes eyebrows-scale {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale($eyebrows-scale-nums);
+  }
+}
+
+@keyframes wings-flaps-left {
+  0% {
+    transform: skewY(0) rotate(0);
+  }
+  10% {
+    transform: rotate(-2deg);
+  }
+  60% {
+    transform: skewY($scewY-wing-left-num) rotate($rotate-wing-left-num);
+  }
+  100% {
+    transform: skewY(0) rotate(0);
+  }
+}
+
+@keyframes wings-flaps-right {
+  0% {
+    transform: skewY(0) rotate(0);
+  }
+  10% {
+    transform: rotate(2deg);
+  }
+  60% {
+    transform: skewY($scewY-wing-right-num) rotate($rotate-wing-right-num);
+  }
+  100% {
+    transform: skewY(0) rotate(0);
+  }
+}
+
+@keyframes beaver-elevates {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY($translate-beaver-up) scaleY(1.03);
+  }
+  55% {
+    transform: translateY($translate-beaver-up+2px) scaleY(1.02);
+  }
+  100% {
+    transform: translateY(0) scaleY(1);
+  }
+}
